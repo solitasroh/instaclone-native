@@ -1,7 +1,8 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
+import { logUserOut } from "../apollo";
 
-export default function Search() {
+export default function Search({ navigation }) {
   return (
     <View
       style={{
@@ -11,7 +12,9 @@ export default function Search() {
         justifyContent: "center",
       }}
     >
-      <Text style={{ color: "white" }}>Search</Text>
+      <TouchableOpacity onPress={() => logUserOut()}>
+        <Text style={{ color: "white" }}>Photo</Text>
+      </TouchableOpacity>
     </View>
   );
 }

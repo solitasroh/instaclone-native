@@ -1,18 +1,27 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import Photo from "../../screens/Photo";
-import Profile from "../../screens/Profile";
-import Feed from "../../screens/Feed";
-import Search from "../../screens/Search";
-import Notifications from "../../screens/Notifications";
-import Me from "../../screens/Me";
-import { SCREENS } from "../../screens/Screens";
+import Photo from "../screens/Photo";
+import Profile from "../screens/Profile";
+import Feed from "../screens/Feed";
+import Search from "../screens/Search";
+import Notifications from "../screens/Notifications";
+import Me from "../screens/Me";
+import { SCREENS } from "../screens/Screens";
 
 const Stack = createStackNavigator();
 
-export default function StackNavFactory({ screenName }) {
+export default function SharedStackNav({ screenName }) {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerBackTitleVisible: false,
+        headerTintColor: "white",
+        headerStyle: {
+          shadowColor: "rgba(255, 255, 255, 0.3)",
+          backgroundColor: "black",
+        },
+      }}
+    >
       {screenName === SCREENS.Feed ? (
         <Stack.Screen name={SCREENS.Feed} component={Feed} />
       ) : null}

@@ -11,7 +11,7 @@ import Profile from "../screens/Profile";
 import Me from "../screens/Me";
 
 import TabIcon from "../components/nav/TabIcon";
-import StackNavFactory from "../components/nav/StackNavFactory";
+import SharedStackNav from "./SharedStackNav";
 import { SCREENS } from "../screens/Screens";
 
 const Tabs = createBottomTabNavigator();
@@ -35,7 +35,7 @@ export default function LoggedInNav() {
           ),
         }}
       >
-        {() => <StackNavFactory screenName={SCREENS.Feed} />}
+        {() => <SharedStackNav screenName={SCREENS.Feed} />}
       </Tabs.Screen>
       <Tabs.Screen
         name="Search"
@@ -45,7 +45,7 @@ export default function LoggedInNav() {
           ),
         }}
       >
-        {() => <StackNavFactory screenName={SCREENS.Search} />}
+        {() => <SharedStackNav screenName={SCREENS.Search} />}
       </Tabs.Screen>
       <Tabs.Screen
         name="Camera"
@@ -65,7 +65,7 @@ export default function LoggedInNav() {
           ),
         }}
       >
-        {() => <StackNavFactory screenName={SCREENS.Notifications} />}
+        {() => <SharedStackNav screenName={SCREENS.Notifications} />}
       </Tabs.Screen>
       <Tabs.Screen
         name="Me"
@@ -75,7 +75,7 @@ export default function LoggedInNav() {
           ),
         }}
       >
-        {() => <StackNavFactory screenName={SCREENS.Me} />}
+        {() => <SharedStackNav screenName={SCREENS.Me} />}
       </Tabs.Screen>
     </Tabs.Navigator>
   );
