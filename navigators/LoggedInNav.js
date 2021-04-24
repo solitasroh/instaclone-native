@@ -1,10 +1,18 @@
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
+import { View } from "react-native";
+
 import Feed from "../screens/Feed";
 import Search from "../screens/Search";
 import Notifications from "../screens/Notifications";
 import Profile from "../screens/Profile";
+import Me from "../screens/Me";
+
+import TabIcon from "../components/nav/TabIcon";
+import StackNavFactory from "../components/nav/StackNavFactory";
+import { SCREENS } from "../screens/Screens";
 
 const Tabs = createBottomTabNavigator();
 export default function LoggedInNav() {
@@ -21,44 +29,54 @@ export default function LoggedInNav() {
     >
       <Tabs.Screen
         name="Feed"
-        component={Feed}
         options={{
           tabBarIcon: ({ focused, color, size }) => (
-            <Ionicons
-              name={focused ? "home" : "home-outline"}
-              color={color}
-              size={24}
-            />
+            <TabIcon iconName={"home"} focused={focused} color={color} />
           ),
         }}
-      />
+      >
+        {() => <StackNavFactory screenName={SCREENS.Feed} />}
+      </Tabs.Screen>
       <Tabs.Screen
         name="Search"
-        component={Search}
         options={{
           tabBarIcon: ({ focused, color, size }) => (
-            <Ionicons name="search" color={color} size={focused ? 24 : 20} />
+            <TabIcon iconName={"search"} focused={focused} color={color} />
           ),
         }}
-      />
+      >
+        {() => <StackNavFactory screenName={SCREENS.Search} />}
+      </Tabs.Screen>
+      <Tabs.Screen
+        name="Camera"
+        component={View}
+        options={{
+          tabBarIcon: ({ focused, color, size }) => (
+            <TabIcon iconName={"camera"} focused={focused} color={color} />
+          ),
+        }}
+      ></Tabs.Screen>
+
       <Tabs.Screen
         name="Notifications"
-        component={Notifications}
         options={{
           tabBarIcon: ({ focused, color, size }) => (
-            <Ionicons name="heart" color={color} size={focused ? 24 : 20} />
+            <TabIcon iconName={"heart"} focused={focused} color={color} />
           ),
         }}
-      />
+      >
+        {() => <StackNavFactory screenName={SCREENS.Notifications} />}
+      </Tabs.Screen>
       <Tabs.Screen
-        name="Profile"
-        component={Profile}
+        name="Me"
         options={{
           tabBarIcon: ({ focused, color, size }) => (
-            <Ionicons name="person" color={color} size={focused ? 24 : 20} />
+            <TabIcon iconName={"person"} focused={focused} color={color} />
           ),
         }}
-      />
+      >
+        {() => <StackNavFactory screenName={SCREENS.Me} />}
+      </Tabs.Screen>
     </Tabs.Navigator>
   );
 }
