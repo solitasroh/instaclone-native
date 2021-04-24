@@ -1,14 +1,19 @@
+import React, { useState } from "react";
 import AppLoading from "expo-app-loading";
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import * as Font from "expo-font";
 import { Asset } from "expo-asset";
 import LoggedOutNav from "./navigators/LoggedOutNav";
 import { NavigationContainer, ThemeProvider } from "@react-navigation/native";
+import { ApolloProvider, useReactiveVar } from "@apollo/client";
+import client, { isLoggedInVar } from "./apollo";
+import LoggedInNav from "./navigators/LoggedInNav";
 
 export default function App() {
   const [loading, setLoading] = useState(true);
+  const isLoggedIn = useReactiveVar(isLoggedInVar);
+
   const onError = () => {
     console.warn();
   };
@@ -18,6 +23,7 @@ export default function App() {
   };
   const preload = () => {
     // todo : image preloading, cache preloading...
+
     const fontsToLoad = [Ionicons.font];
     const fontPromises = fontsToLoad.map((font) => Font.loadAsync(font));
     const imagesToLoad = [
@@ -36,9 +42,13 @@ export default function App() {
       />
     );
   }
+
   return (
-    <NavigationContainer>
-      <LoggedOutNav />
-    </NavigationContainer>
+    <ApolloProvider client={client}>
+      <NavigationContainer>
+        {console.log(isLoggedIn)}
+        {isLoggedIn ? <LoggedInNav /> : <LoggedOutNav />}
+      </NavigationContainer>
+    </ApolloProvider>
   );
 }
