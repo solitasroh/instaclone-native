@@ -4,16 +4,17 @@ import {
   InMemoryCache,
   makeVar,
 } from "@apollo/client";
+import { offsetLimitPagination } from "@apollo/client/utilities";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { setContext } from "@apollo/client/link/context";
+
 const TOKEN = "token";
 export const isLoggedInVar = makeVar(false);
 export const tokenVar = makeVar("");
 export const logUserIn = async (token) => {
-  await AsyncStorage.multiSet([
-    ["token", token],
-    ["loggedIn", "yes"],
-  ]);
+  await AsyncStorage.setItem(TOKEN, token);
+  console.log("token:", token);
+  isLoggedInVar(true);
   tokenVar(token);
 };
 
