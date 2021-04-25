@@ -46,7 +46,7 @@ export default function Feed({ navigation }) {
   return (
     <ScreenLayout loading={loading}>
       <FlatList
-        onEndReachedThreshold={0}
+        onEndReachedThreshold={0.02}
         onEndReached={() => {
           fetchMore({
             variables: {
