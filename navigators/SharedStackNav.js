@@ -10,6 +10,7 @@ import Me from "../screens/Me";
 import { SCREENS } from "../screens/Screens";
 import Likes from "../screens/Likes";
 import Comments from "../screens/Comments";
+import PhotoScreen from "../screens/Photo";
 
 const Stack = createStackNavigator();
 
@@ -54,7 +55,7 @@ export default function SharedStackNav({ screenName }) {
         <Stack.Screen name={SCREENS.Me} component={Me} />
       ) : null}
       <Stack.Screen name="Profile" component={Profile} />
-      <Stack.Screen name="Photo" component={Photo} />
+      <Stack.Screen name="Photo" component={PhotoScreen} />
       <Stack.Screen name="Likes" component={Likes} />
       <Stack.Screen name="Comments" component={Comments} />
     </Stack.Navigator>
