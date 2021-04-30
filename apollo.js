@@ -4,17 +4,19 @@ import {
   InMemoryCache,
   makeVar,
 } from "@apollo/client";
+import { onError } from "@apollo/client/link/error";
+import { setContext } from "@apollo/client/link/context";
 import { offsetLimitPagination } from "@apollo/client/utilities";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { setContext } from "@apollo/client/link/context";
-import { AsyncStorageWrapper, persistCache } from "apollo3-cache-persist";
+import { createUploadLink } from "apollo-upload-client";
 
-const TOKEN = "token";
 export const isLoggedInVar = makeVar(false);
 export const tokenVar = makeVar("");
+
+const TOKEN = "token";
+
 export const logUserIn = async (token) => {
   await AsyncStorage.setItem(TOKEN, token);
-  console.log("token:", token);
   isLoggedInVar(true);
   tokenVar(token);
 };
@@ -24,13 +26,12 @@ export const logUserOut = async () => {
   isLoggedInVar(false);
   tokenVar(null);
 };
-const httpLink = createHttpLink({
-  uri: "https://helpless-lionfish-61.loca.lt/graphql",
-});
-// const httpLink = createHttpLink({
-//   uri: "http://localhost:4000/graphql",
+// const uploadHttpLink = createUploadLink({
+//   uri: "https://helpless-lionfish-61.loca.lt/graphql",
 // });
-
+const uploadHttpLink = createUploadLink({
+  uri: "https://bitter-skunk-33.loca.lt/graphql",
+});
 const authLink = setContext((_, { headers }) => {
   return {
     headers: {
@@ -38,6 +39,15 @@ const authLink = setContext((_, { headers }) => {
       token: tokenVar(),
     },
   };
+});
+
+const onErrorLink = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors) {
+    console.log(`GraphQL Error`, graphQLErrors);
+  }
+  if (networkError) {
+    console.log("Network Error", networkError);
+  }
 });
 
 export const cache = new InMemoryCache({
@@ -51,8 +61,7 @@ export const cache = new InMemoryCache({
 });
 
 const client = new ApolloClient({
-  link: authLink.concat(httpLink),
+  link: authLink.concat(onErrorLink).concat(uploadHttpLink),
   cache,
 });
-
 export default client;

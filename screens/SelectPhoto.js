@@ -15,10 +15,12 @@ const Container = styled.View`
   flex: 1;
   background-color: black;
 `;
+
 const Top = styled.View`
   flex: 1;
   background-color: black;
 `;
+
 const Bottom = styled.View`
   flex: 1;
   background-color: black;
@@ -43,11 +45,9 @@ export default function SelectPhoto({ navigation }) {
   const [photos, setPhotos] = useState([]);
   const [chosenPhoto, setChosenPhoto] = useState("");
   const getPhotos = async () => {
-    //if (ok) {
     const { assets: photos } = await MediaLibrary.getAssetsAsync();
     setPhotos(photos);
     setChosenPhoto(photos[0]?.uri);
-    //}
   };
   const getPermissions = async () => {
     const {
@@ -65,13 +65,17 @@ export default function SelectPhoto({ navigation }) {
       getPhotos();
     }
   };
-
   const HeaderRight = () => (
-    <TouchableOpacity>
+    <TouchableOpacity
+      onPress={() =>
+        navigation.navigate("UploadForm", {
+          file: chosenPhoto,
+        })
+      }
+    >
       <HeaderRightText>Next</HeaderRightText>
     </TouchableOpacity>
   );
-
   useEffect(() => {
     getPermissions();
   }, []);
@@ -79,7 +83,7 @@ export default function SelectPhoto({ navigation }) {
     navigation.setOptions({
       headerRight: HeaderRight,
     });
-  }, []);
+  }, [chosenPhoto]);
   const numColumns = 4;
   const { width } = useWindowDimensions();
   const choosePhoto = (uri) => {
@@ -92,7 +96,6 @@ export default function SelectPhoto({ navigation }) {
         style={{ width: width / numColumns, height: 100 }}
       />
       <IconContainer>
-        <Ionicons name="checkmark-circle" size={18} color="white" />
         <Ionicons
           name="checkmark-circle"
           size={18}
@@ -103,7 +106,7 @@ export default function SelectPhoto({ navigation }) {
   );
   return (
     <Container>
-      <StatusBar />
+      <StatusBar hidden={false} />
       <Top>
         {chosenPhoto !== "" ? (
           <Image
