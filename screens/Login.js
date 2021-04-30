@@ -40,7 +40,7 @@ export default function Login({ route: { params } }) {
       await logUserIn(token);
     }
   };
-  const [logInMutation, { loading }] = useMutation(LOGIN_MUTATION, {
+  const [logInMutation, { loading, error }] = useMutation(LOGIN_MUTATION, {
     onCompleted,
   });
 
@@ -65,7 +65,7 @@ export default function Login({ route: { params } }) {
       });
     }
   };
-
+  console.log(watch("username"));
   return (
     <AuthLayout>
       <TextInput

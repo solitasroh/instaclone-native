@@ -24,15 +24,12 @@ export const logUserOut = async () => {
   isLoggedInVar(false);
   tokenVar(null);
 };
-
-// const client = new ApolloClient({
-//   uri: "https://silent-pig-17.loca.lt/graphql",
-//   cache: new InMemoryCache(),
-// });
-
 const httpLink = createHttpLink({
-  uri: "http://localhost:4000/graphql",
+  uri: "https://helpless-lionfish-61.loca.lt/graphql",
 });
+// const httpLink = createHttpLink({
+//   uri: "http://localhost:4000/graphql",
+// });
 
 const authLink = setContext((_, { headers }) => {
   return {
